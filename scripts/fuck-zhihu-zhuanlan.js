@@ -6,7 +6,7 @@
 // @updateURL    https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
 // @source       https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
 // @downloadURL  https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
-// @version      0.1
+// @version      0.11
 // @description  过滤首页推荐的所有的知乎专栏
 // @author       Dogfish
 // @match        https://www.zhihu.com/
@@ -15,6 +15,13 @@
 
 (function() {
   'use strict';
+  //
+  //
+  const styles = document.createElement('style')
+  styles.innerHTML = `.hidden { display: none }; `;
+  document.body.appendChild(styles);
+  //
+  //
   (new MutationObserver(mutations => mutations.forEach(blockExecutor))).observe(document, {
     childList: true,
     subtree: true,
@@ -31,7 +38,7 @@
         console.log('cardElement not found',  cardElement, element)
         continue
       }
-      cardElement.style.display = 'none!important'
+      cardElement.classList.add('hidden')
     }
   }
   // Utils
