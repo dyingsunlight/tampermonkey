@@ -1,6 +1,9 @@
 // ==UserScript==
 // @name         fuck-zhihu-zhuanlan
 // @namespace    https://github.com/dyingsunlight/tampermonkey
+// @homepage     https://github.com/dyingsunlight/tampermonkey
+// @updateURL    https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
+// @source       https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
 // @version      0.1
 // @description  Fuck off Zhihu Zhuanlan, base on MutationObserver
 // @author       Dogfish
