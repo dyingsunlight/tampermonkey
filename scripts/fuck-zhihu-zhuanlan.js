@@ -1,11 +1,13 @@
 // ==UserScript==
-// @name         fuck-zhihu-zhuanlan
+// @name         过滤知乎专栏(fuck-zhihu-zhuanlan)
 // @namespace    https://github.com/dyingsunlight/tampermonkey
+// @supportURL   https://github.com/dyingsunlight/tampermonkey/issues
 // @homepage     https://github.com/dyingsunlight/tampermonkey
 // @updateURL    https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
 // @source       https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
+// @downloadURL  https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
 // @version      0.1
-// @description  Fuck off Zhihu Zhuanlan, base on MutationObserver
+// @description  过滤首页推荐的所有的知乎专栏
 // @author       Dogfish
 // @match        https://www.zhihu.com/
 // @grant        none
@@ -19,9 +21,9 @@
     characterData: false,
     attributes: false
   });
-  const checkedMarkClass = '.zhuanlan-checked'
+  const checkedMarkClass = 'zhuanlan-checked'
   function blockExecutor() {
-    const elements = document.querySelectorAll(`a[href*="zhuanlan.zhihu.com"]:not(${checkedMarkClass})`)
+    const elements = document.querySelectorAll(`a[href*="zhuanlan.zhihu.com"]:not(.${checkedMarkClass})`)
     for (let element of elements) {
       element.classList.add(checkedMarkClass)
       const cardElement = findParentElementUntilMeetClass(element, 'Card')
