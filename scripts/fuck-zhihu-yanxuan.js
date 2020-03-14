@@ -1,17 +1,15 @@
 // ==UserScript==
-// @name         过滤知乎专栏(fuck-zhihu-zhuanlan)
+// @name         过滤知乎严选(fuck-zhihu-yanxuan)
 // @namespace    https://github.com/dyingsunlight/tampermonkey
 // @supportURL   https://github.com/dyingsunlight/tampermonkey/issues
 // @homepage     https://github.com/dyingsunlight/tampermonkey
-// @updateURL    https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
-// @source       https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
-// @downloadURL  https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
-// @version      0.11
-// @description  过滤首页推荐的所有的知乎专栏
+// @updateURL    https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-yanxuan.js
+// @source       https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-yanxuan.js
+// @downloadURL  https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-yanxuan.js
+// @version      0.1
+// @description  过滤回答页面的所有知乎严选
 // @author       Dogfish
-// @match        https://www.zhihu.com/
-// @match        https://www.zhihu.com/hot
-// @match        https://www.zhihu.com/follow
+// @include      https://www.zhihu.com/question/*
 // @grant        none
 // ==/UserScript==
 
@@ -31,18 +29,22 @@
     characterData: false,
     attributes: false
   });
-  const checkedMarkClass = 'zhuanlan-checked'
+  const checkedMarkClass = 'answer-checked'
   function blockExecutor() {
-    const elements = document.querySelectorAll(`a[href*="zhuanlan.zhihu.com"]:not(.${checkedMarkClass})`)
+    const elements = document.querySelectorAll(`section.IntroCard.AnswerItem-IntroCard:not(.${checkedMarkClass})`)
     for (let element of elements) {
+      const extraParsedData = JSON.parse(element.getAttribute('data-za-extra-module') || '{}')
+      const isPaidColumn = extraParsedData.card && Array.isArray(extraParsedData.card.content) && extraParsedData.card.content.some(item => item.type && item.type === 'PaidColumn')
       element.classList.add(checkedMarkClass)
-      const cardElement = findParentElementUntilMeetClass(element, 'Card')
+      const cardElement = findParentElementUntilMeetClass(element, 'List-item')
       if (!cardElement) {
         console.log('cardElement not found',  cardElement, element)
         continue
       }
-      console.log('Block Zhuan Lan Amount: ', ++matchedCount)
-      cardElement.classList.add('hidden')
+      if (isPaidColumn) {
+        console.log('Block Yanxuan Amount: ', ++matchedCount)
+        cardElement.classList.add('hidden')
+      }
     }
   }
   // Utils
@@ -65,4 +67,5 @@
       }
     }
   }
+  
 })();
