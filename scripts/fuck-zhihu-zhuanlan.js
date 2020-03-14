@@ -6,7 +6,7 @@
 // @updateURL    https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
 // @source       https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
 // @downloadURL  https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
-// @version      0.11
+// @version      0.12
 // @description  过滤首页推荐的所有的知乎专栏
 // @author       Dogfish
 // @match        https://www.zhihu.com/
