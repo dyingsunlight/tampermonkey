@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         过滤知乎严选(fuck-zhihu-yanxuan)
+// @name         过滤知乎推荐答案 (fuck-zhihu-answer)
 // @namespace    https://github.com/dyingsunlight/tampermonkey
 // @supportURL   https://github.com/dyingsunlight/tampermonkey/issues
 // @homepage     https://github.com/dyingsunlight/tampermonkey
 // @updateURL    https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-yanxuan.js
 // @source       https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-yanxuan.js
 // @downloadURL  https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-yanxuan.js
-// @version      0.1
-// @description  过滤回答页面的所有知乎严选
+// @version      0.2
+// @description  过滤问题回答页面的所有付费，训练营类的回答
 // @author       Dogfish
 // @include      https://www.zhihu.com/question/*
 // @grant        none
@@ -34,14 +34,21 @@
     const elements = document.querySelectorAll(`section.IntroCard.AnswerItem-IntroCard:not(.${checkedMarkClass})`)
     for (let element of elements) {
       const extraParsedData = JSON.parse(element.getAttribute('data-za-extra-module') || '{}')
-      const isPaidColumn = extraParsedData.card && Array.isArray(extraParsedData.card.content) && extraParsedData.card.content.some(item => item.type && item.type === 'PaidColumn')
+      const isAPieceOfShit = extraParsedData.card
+        && Array.isArray(extraParsedData.card.content)
+        && extraParsedData.card.content.some(item => {
+          return item.type && (
+            item.type === 'PaidColumn' ||
+            item.type === 'Training'
+          )
+        })
       element.classList.add(checkedMarkClass)
       const cardElement = findParentElementUntilMeetClass(element, 'List-item')
       if (!cardElement) {
         console.log('cardElement not found',  cardElement, element)
         continue
       }
-      if (isPaidColumn) {
+      if (isAPieceOfShit) {
         console.log('Block Yanxuan Amount: ', ++matchedCount)
         cardElement.classList.add('hidden')
       }
