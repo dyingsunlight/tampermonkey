@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         过滤知乎专栏(fuck-zhihu-zhuanlan)
+// @name         过滤知乎首页推荐(fuck-zhihu-homepage)
 // @namespace    https://github.com/dyingsunlight/tampermonkey
 // @supportURL   https://github.com/dyingsunlight/tampermonkey/issues
 // @homepage     https://github.com/dyingsunlight/tampermonkey
 // @updateURL    https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
 // @source       https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
 // @downloadURL  https://github.com/dyingsunlight/tampermonkey/raw/master/scripts/fuck-zhihu-zhuanlan.js
-// @version      0.12
-// @description  过滤首页推荐的所有的知乎专栏
+// @version      0.13
+// @description  过滤首页推荐的所有的知乎专栏，和知乎视频
 // @author       Dogfish
 // @match        https://www.zhihu.com/
 // @match        https://www.zhihu.com/hot
@@ -33,7 +33,7 @@
   });
   const checkedMarkClass = 'zhuanlan-checked'
   function blockExecutor() {
-    const elements = document.querySelectorAll(`a[href*="zhuanlan.zhihu.com"]:not(.${checkedMarkClass})`)
+    const elements = document.querySelectorAll(`a[href*="zhuanlan.zhihu.com"]:not(.${checkedMarkClass})|a[href*="zhihu.com/zvideo"]:not(.${checkedMarkClass})`)
     for (let element of elements) {
       element.classList.add(checkedMarkClass)
       const cardElement = findParentElementUntilMeetClass(element, 'Card')
